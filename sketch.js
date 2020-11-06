@@ -39,7 +39,7 @@ var page = "Matter";
 
 function setup() {
   createCanvas(window.innerWidth - 4, window.innerHeight - 4);
-  matterScreenStart();
+  matterPageStart();
 }
 
 function matterPageStart() {
