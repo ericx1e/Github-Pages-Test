@@ -39,10 +39,10 @@ var page = "Matter";
 
 function setup() {
   createCanvas(window.innerWidth - 4, window.innerHeight - 4);
-  matterpageStart();
+  matterScreenStart();
 }
 
-function matterpageStart() {
+function matterPageStart() {
   engine = Engine.create();
   world = engine.world;
   // Engine.run(engine);
@@ -56,18 +56,18 @@ function matterpageStart() {
 
 function draw() {
   if(page == "Start") {
-    startpageUpdate();
+    startPageUpdate();
   }
   if(page == "Matter") {
-    matterpageUpdate();
+    matterPageUpdate();
   }
 }
 
-function startpageUpdate() {
+function startPageUpdate() {
   background(255);
 }
 
-function matterpageUpdate() {
+function matterPageUpdate() {
   background(151);
   Engine.update(engine);
   boxes.forEach((item, i) => {
@@ -75,7 +75,7 @@ function matterpageUpdate() {
 
     var body = box.body;
 
-    if(item.isOffpage()) {
+    if(item.isOffScreen()) {
       boxes.splice(i, 1);
       item.removeFromWorld();
     }
@@ -83,7 +83,7 @@ function matterpageUpdate() {
 
   balls.forEach((item, i) => {
     item.show();
-    if(item.isOffpage()) {
+    if(item.isOffScreen()) {
       balls.splice(i, 1);
       item.removeFromWorld();
     }
