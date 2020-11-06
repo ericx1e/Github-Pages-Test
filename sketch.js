@@ -1,7 +1,7 @@
 // let _text;
 
 // function setup() {
-  
+
 //   createCanvas(window.innerWidth - 4, window.innerHeight - 4, WEBGL);
 
 //   _text = createGraphics(window.innerWidth - 4, window.innerHeight - 4);
@@ -35,9 +35,14 @@ var boxes = [];
 var balls = [];
 var boundaries = [];
 var world;
+var page = "Matter";
 
 function setup() {
   createCanvas(window.innerWidth - 4, window.innerHeight - 4);
+  matterpageStart();
+}
+
+function matterpageStart() {
   engine = Engine.create();
   world = engine.world;
   // Engine.run(engine);
@@ -50,6 +55,19 @@ function setup() {
 }
 
 function draw() {
+  if(page == "Start") {
+    startpageUpdate();
+  }
+  if(page == "Matter") {
+    matterpageUpdate();
+  }
+}
+
+function startpageUpdate() {
+  background(255);
+}
+
+function matterpageUpdate() {
   background(151);
   Engine.update(engine);
   boxes.forEach((item, i) => {
@@ -57,7 +75,7 @@ function draw() {
 
     var body = box.body;
 
-    if(item.isOffScreen()) {
+    if(item.isOffpage()) {
       boxes.splice(i, 1);
       item.removeFromWorld();
     }
@@ -65,7 +83,7 @@ function draw() {
 
   balls.forEach((item, i) => {
     item.show();
-    if(item.isOffScreen()) {
+    if(item.isOffpage()) {
       balls.splice(i, 1);
       item.removeFromWorld();
     }
