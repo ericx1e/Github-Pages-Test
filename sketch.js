@@ -25,17 +25,17 @@
 //   box(200);
 // }
 var Engine = Matter.Engine,
-    Render = Matter.Render,
-    World = Matter.World,
-    Bodies = Matter.Bodies,
-    Body = Matter.Body;
+  Render = Matter.Render,
+  World = Matter.World,
+  Bodies = Matter.Bodies,
+  Body = Matter.Body;
 
 var engine;
 var boxes = [];
 var balls = [];
 var boundaries = [];
 var world;
-var page = "Start";
+var page = "Matter";
 
 function setup() {
   createCanvas(window.innerWidth - 4, window.innerHeight - 4);
@@ -51,14 +51,14 @@ function matterPageStart() {
   }
   // boundaries.push(new Boundary(200, 200, 600, 20, 0.3));
   // boundaries.push(new Boundary(600, 400, 600, 20, -0.3));
-  boundaries.push(new Boundary(width, height-10, width/2, 20, 0));
+  boundaries.push(new Boundary(width / 2, height - 10, width, 20, 0));
 }
 
 function draw() {
-  if(page == "Start") {
+  if (page == "Start") {
     startPageUpdate();
   }
-  if(page == "Matter") {
+  if (page == "Matter") {
     matterPageUpdate();
   }
 }
@@ -75,7 +75,7 @@ function matterPageUpdate() {
 
     var body = box.body;
 
-    if(item.isOffScreen()) {
+    if (item.isOffScreen()) {
       boxes.splice(i, 1);
       item.removeFromWorld();
     }
@@ -83,7 +83,7 @@ function matterPageUpdate() {
 
   balls.forEach((item, i) => {
     item.show();
-    if(item.isOffScreen()) {
+    if (item.isOffScreen()) {
       balls.splice(i, 1);
       item.removeFromWorld();
     }
@@ -100,25 +100,68 @@ function matterPageUpdate() {
   //     // else
   //     // balls.push(new Ball(mouseX, mouseY, random(2.5, 15), random(0, 255)));
   //   }
+
+
+  if (key == 3 && mouseDown) {
+    stroke(0);
+    strokeWeight(8);
+    line(mouseXStart, mouseYStart, mouseX, mouseY);
+  }
+
+  let mode;
+  switch (key) {
+    case '1':
+      mode = "boxes";
+      break;
+    case '2':
+      mode = "balls";
+      break;
+    case '3':
+      mode = "walls";
+      break;
+    case 'w':
+      mode = "water";
+      break;
+    case ' ':
+      mode = "spam";
+      break;
+    default:
+      mode = "none";
+      break;
+  }
+  textAlign(CENTER, CENTER);
+  textSize(50);
+  fill(0);
+  stroke(255);
+  strokeWeight(2);
+  text(mode, width / 2, 100);
+  textSize(25);
+  text("fps: " + int(frameRate()), width/2, 150);
 }
 
-var mouseXStart, mouseYStart;
+var mouseXStart = 0;
+
+var mouseYStart = 0;
+
+var mouseDown;
 
 function mousePressed() {
-  if(key == '1') {
+  mouseDown = true;
+  if (key == '1') {
     boxes.push(new Box(mouseX, mouseY, random(5, 30), random(5, 30), random(0, 255)));
   }
-  if(key == '2') {
+  if (key == '2') {
     balls.push(new Ball(mouseX, mouseY, random(2.5, 15), random(0, 255)));
   }
-  if(key == '3') {
+  if (key == '3') {
     mouseXStart = mouseX;
     mouseYStart = mouseY;
   }
 }
 
 function mouseReleased() {
-  if(key == '3') {
+  mouseDown = false;
+  if (key == '3') {
     let x = mouseX;
     let y = mouseY;
 
@@ -126,19 +169,26 @@ function mouseReleased() {
 
     let angle = atan2(y - mouseYStart, x - mouseXStart);
 
-    boundaries.push(new Boundary((x + mouseX)/2, (y + mouseY)/2, length, 20, angle));
+    boundaries.push(new Boundary((x + mouseXStart) / 2, (y + mouseYStart) / 2, length, 20, angle));
 
   }
 }
 
 function mouseDragged() {
-  if(key == 'w') {
+  if (key == 'w') {
     balls.push(new Ball(mouseX, mouseY, 2, 150));
+  }
+
+  if (key == ' ') {
+    if (frameCount % 2 == 0) {
+      boxes.push(new Box(mouseX, mouseY, random(5, 30), random(5, 30), random(0, 255)));
+      balls.push(new Ball(mouseX, mouseY, random(2.5, 15), random(0, 255)));
+    }
   }
 }
 
 function keyPressed() {
-  if(key == 'r') {
+  if (key == 'r') {
     boxes.forEach((item, i) => {
       item.removeFromWorld();
     });
@@ -149,5 +199,11 @@ function keyPressed() {
       item.removeFromWorld();
     });
     balls = [];
+
+    for (var i = 1; i < boundaries.length; i) {
+
+      boundaries[i].removeFromWorld();
+      boundaries.splice(i, 1);
+    }
   }
 }

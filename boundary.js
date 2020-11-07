@@ -23,4 +23,8 @@ var options = {
     rect(0, 0, this.w, this.h);
     pop();
   }
+
+  this.removeFromWorld = function() {
+    World.remove(world, this.body);
+  }
 }
