@@ -35,7 +35,7 @@ var boxes = [];
 var balls = [];
 var boundaries = [];
 var world;
-var page = "Matter";
+var page = "Start";
 
 function setup() {
   createCanvas(window.innerWidth - 4, window.innerHeight - 4);
@@ -49,9 +49,9 @@ function matterPageStart() {
   var option = {
     isStatic: true
   }
-  boundaries.push(new Boundary(200, 200, 600, 20, 0.3));
-  boundaries.push(new Boundary(600, 400, 600, 20, -0.3));
-  boundaries.push(new Boundary(400, 790, 800, 20, 0));
+  // boundaries.push(new Boundary(200, 200, 600, 20, 0.3));
+  // boundaries.push(new Boundary(600, 400, 600, 20, -0.3));
+  boundaries.push(new Boundary(width, height-10, width/2, 20, 0));
 }
 
 function draw() {
@@ -102,12 +102,32 @@ function matterPageUpdate() {
   //   }
 }
 
+let mouseStartX, mouseStartY;
+
 function mousePressed() {
   if(key == '1') {
     boxes.push(new Box(mouseX, mouseY, random(5, 30), random(5, 30), random(0, 255)));
   }
   if(key == '2') {
     balls.push(new Ball(mouseX, mouseY, random(2.5, 15), random(0, 255)));
+  }
+  if(key == '3') {
+    mouseStartX = mouseX;
+    mouseStartY = mouseY;
+  }
+}
+
+function mouseReleased() {
+  if(key == '3') {
+    let x = mouseX;
+    let y = mouseY;
+
+    let length = dist(x, y, mouseStartX, mouseStartY);
+
+    let angle = atan2(y - mouseStartY, x - mouseStartX);
+
+    boundaries.push(new Boundary((x + mouseX)/2, (y + mouseY)/2, length, 20, angle);
+
   }
 }
 
@@ -119,7 +139,15 @@ function mouseDragged() {
 
 function keyPressed() {
   if(key == 'r') {
+    boxes.forEach((item, i) => {
+      item.removeFromWorld();
+    });
+
     boxes = [];
+
+    balls.forEach((item, i) => {
+      item.removeFromWorld();
+    });
     balls = [];
   }
 }
