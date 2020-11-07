@@ -102,7 +102,7 @@ function matterPageUpdate() {
   //   }
 }
 
-let mouseStartX, mouseStartY;
+var mouseXStart, mouseYStart;
 
 function mousePressed() {
   if(key == '1') {
@@ -112,8 +112,8 @@ function mousePressed() {
     balls.push(new Ball(mouseX, mouseY, random(2.5, 15), random(0, 255)));
   }
   if(key == '3') {
-    mouseStartX = mouseX;
-    mouseStartY = mouseY;
+    mouseXStart = mouseX;
+    mouseYStart = mouseY;
   }
 }
 
@@ -122,9 +122,9 @@ function mouseReleased() {
     let x = mouseX;
     let y = mouseY;
 
-    let length = dist(x, y, mouseStartX, mouseStartY);
+    let length = dist(x, y, mouseXStart, mouseYStart);
 
-    let angle = atan2(y - mouseStartY, x - mouseStartX);
+    let angle = atan2(y - mouseYStart, x - mouseXStart);
 
     boundaries.push(new Boundary((x + mouseX)/2, (y + mouseY)/2, length, 20, angle));
 
