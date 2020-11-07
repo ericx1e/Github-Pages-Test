@@ -126,7 +126,7 @@ function mouseReleased() {
 
     let angle = atan2(y - mouseStartY, x - mouseStartX);
 
-    boundaries.push(new Boundary((x + mouseX)/2, (y + mouseY)/2, length, 20, angle);
+    boundaries.push(new Boundary((x + mouseX)/2, (y + mouseY)/2, length, 20, angle));
 
   }
 }
