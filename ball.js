@@ -20,6 +20,7 @@ function Ball(x, y, r, hue) {
     noStroke();
     fill(hue, 255, 255, 100);
     ellipse(0, 0, 2*r, 2*r);
+    line(0, 0, cos(this.body.angle)*r, sin(this.body.angle)*r);
     pop();
   }
 
