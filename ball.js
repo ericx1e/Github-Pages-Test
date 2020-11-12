@@ -1,14 +1,10 @@
-function Ball(x, y, r, hue) {
-  var options = {
-    friction: 0.3,
-    restitution: 0.5,
-  }
+function Ball(options, x, y, r, hue) {
   this.body = Bodies.circle(x, y, r, options);
   this.r = r;
   this.hue = hue;
   World.add(world, this.body);
 
-  this.show = function() {
+  this.show = function(debugOptions) {
     var pos = this.body.position;
     var angle = this.body.angle;
 
@@ -20,8 +16,24 @@ function Ball(x, y, r, hue) {
     noStroke();
     fill(hue, 255, 255, 100);
     ellipse(0, 0, 2*r, 2*r);
-    line(0, 0, cos(this.body.angle)*r, sin(this.body.angle)*r);
+    if(debugOptions.radius) {
+      stroke(0);
+      strokeWeight(3);
+      line(0, 0, cos(this.body.angle)*r, sin(this.body.angle)*r);
+      console.log(debugOptions.radius);
+    }
     pop();
+    var debugText = '';
+    if(debugOptions.friction) {
+      debugText += 'friction: ' + options.friction + '\n';
+    }
+    if(debugOptions.restitution) {
+      debugText += 'restitution: ' + options.restitution + '\n';
+    }
+    fill(0);
+    noStroke();
+    textSize(15);
+    text(debugText, pos.x, pos.y - r - 20);
   }
 
   this.isOffScreen = function() {

@@ -1,8 +1,4 @@
-function Box(x, y, w, h, hue) {
-var options = {
-  friction: 0.3,
-  restitution: 0.5,
-}
+function Box(options, x, y, w, h, hue) {
   this.body = Bodies.rectangle(x, y, w, h, options);
   this.w = w;
   this.h = h;
@@ -23,6 +19,17 @@ var options = {
     rect(0, 0, this.w, this.h);
     colorMode(RGB, 255);
     pop();
+    var debugText = '';
+    if(debugOptions.friction) {
+      debugText += 'friction: ' + options.friction + '\n';
+    }
+    if(debugOptions.restitution) {
+      debugText += 'restitution: ' + options.restitution + '\n';
+    }
+    fill(0);
+    noStroke();
+    textSize(15);
+    text(debugText, pos.x, pos.y - h/2 - 20);
   }
 
   this.isOffScreen = function() {
