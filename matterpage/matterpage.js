@@ -18,6 +18,7 @@ function MatterPage() {
   // var frictionCheckbox, restitutionCheckbox, radiusCheckbox;
   // var debugOptions;
 
+
   this.setup = function() {
     // rover.usePointerLock();
     rover.reset();
@@ -34,7 +35,7 @@ function MatterPage() {
     world = engine.world;
     perspective();
     camera();
-    textFont('Helvetica');
+    textFont(helventicaFont);
     // Engine.run(engine);
     var option = {
       isStatic: true

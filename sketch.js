@@ -4,6 +4,7 @@ var page = "Start";
 var matterPage;
 var startPage;
 var canvas;
+var helventicaFont;
 
 //Start Vars
 var rover;
@@ -40,6 +41,7 @@ var mouseDown;
 
 
 function setup() {
+  helventicaFont = loadFont('assets/Helvetica 400.ttf');
   canvas = createCanvas(window.innerWidth - 4, window.innerHeight - 4, WEBGL);
   startPage = new StartPage();
   startPage.setup();

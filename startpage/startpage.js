@@ -6,6 +6,9 @@ function StartPage() {
     rover.usePointerLock();
     rover.setState({position: [-400,-0,-200], rotation: [0.4,0.3,0], sensitivity: 0.025, speed: 1.0});
     // requestPointerLock();
+    textFont(helventicaFont);
+    textAlign(CENTER, CENTER);
+    textSize(25);
   }
 
   this.draw = function() {
@@ -16,17 +19,36 @@ function StartPage() {
     push();
     normalMaterial();
     box(50);
+    fill(255);
+    text('box', 0, -50, 0);
     translate(100, 0, 0);
+    normalMaterial();
     sphere(25);
+    fill(255);
+    text('sphere', 0, -50, 0);
     translate(100, 0, 0);
+    normalMaterial();
     torus(25, 12);
+    fill(255);
+    text('torus', 0, -50, 0);
     translate(100, 0, 0);
+    normalMaterial();
     ellipsoid(12, 25, 25);
+    fill(255);
+    text('ellipsoid', 0, -50, 0);
     translate(100, 0, 0);
+    normalMaterial();
     cylinder(25, 50);
+    fill(255);
+    text('cylinder', 0, -50, 0);
     translate(100, 0, 0);
+    normalMaterial();
+    push();
     rotateX(PI);
     cone(25, 40);
+    pop();
+    fill(255);
+    text('cone', 0, -50, 0);
     pop();
   }
 }
