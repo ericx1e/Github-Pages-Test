@@ -34,6 +34,7 @@ function MatterPage() {
     world = engine.world;
     perspective();
     camera();
+    textFont('Helvetica');
     // Engine.run(engine);
     var option = {
       isStatic: true
