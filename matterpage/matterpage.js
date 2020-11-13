@@ -20,21 +20,8 @@ function MatterPage() {
 
 
   this.setup = function() {
-    // rover.usePointerLock();
-    rover.reset();
-    // rover.usePointerLock();
-    rover.setActive(false);
-    exitPointerLock();
-    document.removeEventListener('click', RoverCam.togglePointerLock, false);
-    // document.removeEventListener('pointerlockchange', RoverCam.onPointerlockChange, false);
-    // canvas.remove();
-    // canvas = null;
-    // canvas = createCanvas(window.innerWidth - 4, window.innerHeight - 4, P2D);
-    canvas.position(0, 0);
     engine = Engine.create();
     world = engine.world;
-    perspective();
-    camera();
     textFont(helventicaFont);
     // Engine.run(engine);
     var option = {
@@ -53,6 +40,25 @@ function MatterPage() {
     restitutionCheckbox.position(20, 110);
     radiusCheckbox = createCheckbox(' show radius', false);
     radiusCheckbox.position(20, 140);
+    widthSlider = createSlider(5, 50, 15, 1);
+    widthSlider.position(20, 170);
+    heightSlider = createSlider(5, 50, 15, 1);
+    heightSlider.position(20, 200);
+    scaleSlider = createSlider(1, 10, 1, 1);
+    scaleSlider.position(20, 230);
+
+    boxButton = createButton('box');
+    boxButton.position(90-boxButton.size().width/2, 320);
+    ballButton = createButton('ball');
+    ballButton.position(90-ballButton.size().width/2, 500);
+  }
+
+  this.close = function() {
+    frictionSlider.remove();
+    restitution.remove();
+    frictionCheckbox.remove();
+    restitutionCheckbox.remove();
+    radiusCheckbox.remove();
   }
 
   this.draw = function() {
@@ -63,6 +69,15 @@ function MatterPage() {
       rectMode(CORNER);
       noStroke();
       rect(0, 0, deadZoneX, deadZoneY);
+      rectMode(CENTER);
+      fill(150, 150, 255, 100);
+      rect(boxButton.position().x + boxButton.size().width/2, boxButton.position().y + boxButton.size().height/2, widthSlider.value()*3, heightSlider.value()*3);
+      ellipse(ballButton.position().x + ballButton.size().width/2, ballButton.position().y + ballButton.size().height/2, widthSlider.value()*3, widthSlider.value()*3);
+
+      boxButton.mousePressed(() => {mode = 1;});
+      console.log(mode);
+      ballButton.mousePressed(() => {mode = 2;});
+
       Engine.update(engine);
       debugOptions = {friction: frictionCheckbox.checked(), restitution: restitutionCheckbox.checked(), radius: radiusCheckbox.checked()};
       sliderOptions = {friction: frictionSlider.value(), restitution: restitutionSlider.value()};
@@ -98,31 +113,29 @@ function MatterPage() {
       //   }
 
 
-      if (key == 3 && mouseDown) {
+      if (mode == 3 && mouseDown) {
         stroke(0);
         strokeWeight(8);
         line(mouseXStart, mouseYStart, mouseX, mouseY);
       }
 
-      let mode;
-      switch (key) {
-        case '1':
-          mode = "boxes";
+      var modeText;
+
+      switch (mode) {
+        case 1:
+          modeText = "boxes";
           break;
-        case '2':
-          mode = "balls";
+        case 2:
+          modeText = "balls";
           break;
-        case '3':
-          mode = "walls";
+        case 3:
+          modeText = "walls";
           break;
-        case 'w':
-          mode = "water";
-          break;
-        case ' ':
-          mode = "spam";
+        case 4:
+          modeText = "spam";
           break;
         default:
-          mode = "none";
+          modeText = "none";
           break;
       }
       textAlign(CENTER, CENTER);
@@ -130,7 +143,7 @@ function MatterPage() {
       fill(0);
       stroke(255);
       strokeWeight(2);
-      text(mode, width / 2, 100);
+      text(modeText, width / 2, 100);
       textSize(25);
       text("fps: " + int(frameRate()), width/2, 150);
       pop();
@@ -143,13 +156,13 @@ function MatterPage() {
         return;
       }
       mouseDown = true;
-      if (key == '1') {
-        boxes.push(new Box(sliderOptions, mouseX, mouseY, random(5, 30), random(5, 30), random(0, 255)));
+      if (mode == '1') {
+        boxes.push(new Box(sliderOptions, mouseX, mouseY, widthSlider.value() * scaleSlider.value(), heightSlider.value() * scaleSlider.value(), random(0, 255)));
       }
-      if (key == '2') {
-        balls.push(new Ball(sliderOptions, mouseX, mouseY, random(2.5, 15), random(0, 255)));
+      if (mode == '2') {
+        balls.push(new Ball(sliderOptions, mouseX, mouseY, widthSlider.value()/2 * scaleSlider.value(), random(0, 255)));
       }
-      if (key == '3') {
+      if (mode == '3') {
         mouseXStart = mouseX;
         mouseYStart = mouseY;
       }
@@ -161,7 +174,7 @@ function MatterPage() {
       // key = 'none';
       return;
     }
-    if (key == '3' && mouseXStart > 0 && mouseYStart > 0) {
+    if (mode == '3' && mouseXStart > 0 && mouseYStart > 0) {
       let x = mouseX;
       let y = mouseY;
 
@@ -179,11 +192,8 @@ function MatterPage() {
       // key = 'none';
       return;
     }
-    if (key == 'w') {
-      balls.push(new Ball(mouseX, mouseY, 2, 150));
-    }
 
-    if (key == ' ') {
+    if (mode == '4') {
       if (frameCount % 2 == 0) {
         boxes.push(new Box(sliderOptions, mouseX, mouseY, random(5, 30), random(5, 30), random(0, 255)));
         balls.push(new Ball(sliderOptions, mouseX, mouseY, random(2.5, 15), random(0, 255)));

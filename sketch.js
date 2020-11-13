@@ -5,6 +5,7 @@ var matterPage;
 var startPage;
 var canvas;
 var helventicaFont;
+var curPage;
 
 //Start Vars
 var rover;
@@ -23,11 +24,15 @@ var balls = [];
 var boundaries = [];
 var world;
 var deadZoneX = 180;
-var deadZoneY = 180;
+var deadZoneY = 720;
+
+var mode;
 
 var frictionSlider, restitutionSlider;
 var frictionCheckbox, restitutionCheckbox, radiusCheckbox;
 var debugOptions;
+var widthSlider, heightSlider, scaleSlider;
+var boxButton, ballButton;
 
 
 var sliderOptions;
@@ -46,6 +51,7 @@ function setup() {
   startPage = new StartPage();
   startPage.setup();
   matterPage = new MatterPage();
+  // matterPage.setup();
 }
 
 function draw() {
@@ -80,6 +86,7 @@ function keyPressed() {
     matterPage.keyPressed();
   }
   if(key == '0') {
+    startPage.close();
     page = "Matter";
     matterPage.setup();
   }

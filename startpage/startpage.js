@@ -11,6 +11,17 @@ function StartPage() {
     textSize(25);
   }
 
+  this.close = function() {
+    // rover.usePointerLock();
+    rover.reset();
+    // rover.usePointerLock();
+    rover.setActive(false);
+    exitPointerLock();
+    document.removeEventListener('click', RoverCam.togglePointerLock, false);
+    perspective();
+    camera();
+  }
+
   this.draw = function() {
   // orbitControl();
     background(51);
@@ -50,6 +61,12 @@ function StartPage() {
     fill(255);
     text('cone', 0, -50, 0);
     pop();
+
+    if(dist(200, 0, 0, rover.position.x, rover.position.y, rover.position.z) < 10) {
+      startPage.close();
+      matterPage.setup();
+      page = "Matter";
+    }
   }
 }
 
