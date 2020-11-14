@@ -28,6 +28,21 @@ function StartPage() {
     ambientLight(100);
     lights();
     push();
+    noFill();
+    stroke(0);
+    strokeWeight(5);
+    translate(-500, 200, -500);
+    for (var i = 0; i < 10; i++) {
+      for (var j = 0; j < 10; j++) {
+        translate(i*100, 0, j*100);
+        rotateX(PI/2);
+        plane(100, 100);
+        rotateX(-PI/2);
+        translate(-i*100, 0, -j*100);
+      }
+    }
+    pop();
+    push();
     normalMaterial();
     box(50);
     fill(255);

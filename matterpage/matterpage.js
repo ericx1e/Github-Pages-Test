@@ -51,6 +51,8 @@ function MatterPage() {
     boxButton.position(90-boxButton.size().width/2, 320);
     ballButton = createButton('ball');
     ballButton.position(90-ballButton.size().width/2, 500);
+    wallButton = createButton('wall');
+    wallButton.position(90-wallButton.size().width/2, 680);
   }
 
   this.close = function() {
@@ -73,10 +75,16 @@ function MatterPage() {
       fill(150, 150, 255, 100);
       rect(boxButton.position().x + boxButton.size().width/2, boxButton.position().y + boxButton.size().height/2, widthSlider.value()*3, heightSlider.value()*3);
       ellipse(ballButton.position().x + ballButton.size().width/2, ballButton.position().y + ballButton.size().height/2, widthSlider.value()*3, widthSlider.value()*3);
+      push();
+      fill(150);
+      translate(wallButton.position().x+wallButton.size().width/2, wallButton.position().y+wallButton.size().height/2);
+      rotate(-0.5);
+      rect(0, 0, 150, 20);
+      pop();
 
       boxButton.mousePressed(() => {mode = 1;});
-      console.log(mode);
       ballButton.mousePressed(() => {mode = 2;});
+      wallButton.mousePressed(() => {mode = 3;});
 
       Engine.update(engine);
       debugOptions = {friction: frictionCheckbox.checked(), restitution: restitutionCheckbox.checked(), radius: radiusCheckbox.checked()};

@@ -24,7 +24,7 @@ var balls = [];
 var boundaries = [];
 var world;
 var deadZoneX = 180;
-var deadZoneY = 720;
+var deadZoneY;
 
 var mode;
 
@@ -32,7 +32,7 @@ var frictionSlider, restitutionSlider;
 var frictionCheckbox, restitutionCheckbox, radiusCheckbox;
 var debugOptions;
 var widthSlider, heightSlider, scaleSlider;
-var boxButton, ballButton;
+var boxButton, ballButton, wallButton;
 
 
 var sliderOptions;
@@ -48,6 +48,7 @@ var mouseDown;
 function setup() {
   helventicaFont = loadFont('assets/Helvetica 400.ttf');
   canvas = createCanvas(window.innerWidth - 4, window.innerHeight - 4, WEBGL);
+    deadZoneY = height;
   startPage = new StartPage();
   startPage.setup();
   matterPage = new MatterPage();
